@@ -3,14 +3,47 @@
 set -e
 
 WEEK=$1
+COMMAND=$2
 
 CP=algs4/algs4.jar:${WEEK}/src
 JAVA=$(find ${WEEK}/src -name *.java)
+CLASS=$(find ${WEEK}/src -name *.class)
 
-checkstyle -c algs4/checkstyle-coursera.xml ${JAVA}
+clean() {
+  rm ${WEEK}/src/*.class
+}
 
-RUN=$(cat ${WEEK}/run)
+check() {
+  checkstyle -c algs4/checkstyle-coursera.xml ${JAVA}
+}
 
-set -x
-javac -cp ${CP} ${JAVA}
-java -cp ${CP} ${RUN}
+build() {
+  javac -cp ${CP} ${JAVA}
+}
+
+run() {
+  RUN=$(cat ${WEEK}/run)
+
+  java -cp ${CP} ${RUN}
+}
+
+case ${COMMAND} in
+  clean)
+    clean
+  ;;
+  build)
+    check
+    build
+  ;;
+  run)
+    check
+    build
+    run
+  ;;
+  *)
+    check
+    build
+    run
+  ;;
+esac
+
