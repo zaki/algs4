@@ -1,0 +1,5 @@
+algs4/
+*.class
+
+# findbugs config
+week*.xml
