@@ -1,5 +1,7 @@
 algs4/
+test/
 *.class
+*.zip
 
 # findbugs config
 week*.xml
